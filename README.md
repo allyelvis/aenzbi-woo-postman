@@ -1,14 +1,73 @@
-Creating and posting various types of data (such as invoice, billing, order, inventory, company info, user, stock movement, and stock transactions) to an external endpoint using Postman involves multiple steps. Each data type will have its own cURL command, which can be imported into Postman. Below, I'll provide example cURL commands for each type and how to import them into Postman.
+Here's a `README.md` file to help you set up and use the Postman collection for posting various data types to an external endpoint for real-time fiscalization, using both Basic Auth and Bearer Token for authentication.
 
-### Example cURL Commands
+```markdown
+# WooCommerce API Postman Collection for Fiscalization
 
-#### 1. Posting an Invoice
+This repository contains a Postman collection for posting various data types (invoice, billing order, inventory, company info, user, stock movement, and stock transactions) to an external endpoint for real-time fiscalization. The requests use both Basic Auth and Bearer Token for authentication.
 
-```sh
-curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/invoices \
--u consumer_key:consumer_secret \
--H "Content-Type: application/json" \
--d '{
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Setup](#setup)
+- [Requests](#requests)
+  - [Invoice](#invoice)
+  - [Billing Order](#billing-order)
+  - [Inventory Information](#inventory-information)
+  - [Company Information](#company-information)
+  - [User Information](#user-information)
+  - [Stock Movement](#stock-movement)
+  - [Stock Transactions](#stock-transactions)
+- [Running the Collection](#running-the-collection)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Prerequisites
+
+- [Postman](https://www.postman.com/downloads/) installed on your machine.
+- WooCommerce API credentials (Consumer Key and Consumer Secret).
+- External endpoint for fiscalization with Bearer Token for authentication.
+
+## Setup
+
+### 1. Import the Collection into Postman
+
+1. Open Postman.
+2. Click on the **Import** button in the top-left corner.
+3. Select the exported collection file (`collection.json`).
+4. Click **Import**.
+
+### 2. Configure the Environment
+
+1. Click on the gear icon in the top-right corner of Postman.
+2. Click on **Add** to create a new environment.
+3. Name the environment (e.g., "Fiscalization Endpoint").
+4. Add the following variables:
+   - `base_url`: The base URL of your external endpoint (e.g., `https://external-endpoint.com/api`).
+   - `bearer_token`: Your Bearer Token for authentication.
+
+### 3. Set Up Authorization Headers
+
+1. Go to each request in the collection.
+2. Under the **Headers** tab, add a new header:
+   - **Key**: `Authorization`
+   - **Value**: `Bearer {{bearer_token}}`
+
+### 4. Use Environment Variables
+
+1. Replace the URLs in your requests with environment variables, for example: `{{base_url}}/invoices`.
+
+## Requests
+
+### Invoice
+
+**Method**: `POST`  
+**URL**: `{{base_url}}/invoices`  
+**Authorization**: Basic Auth  
+**Headers**: `Content-Type: application/json`  
+**Body** (raw, JSON):
+
+```json
+{
   "order_id": 123,
   "invoice_number": "INV-001",
   "billing": {
@@ -27,16 +86,19 @@ curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/invoices \
       "price": "21.99"
     }
   ]
-}'
+}
 ```
 
-#### 2. Posting a Billing Order
+### Billing Order
 
-```sh
-curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/orders \
--u consumer_key:consumer_secret \
--H "Content-Type: application/json" \
--d '{
+**Method**: `POST`  
+**URL**: `{{base_url}}/orders`  
+**Authorization**: Basic Auth  
+**Headers**: `Content-Type: application/json`  
+**Body** (raw, JSON):
+
+```json
+{
   "billing": {
     "first_name": "John",
     "last_name": "Doe",
@@ -52,16 +114,19 @@ curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/orders \
       "quantity": 1
     }
   ]
-}'
+}
 ```
 
-#### 3. Posting Inventory Information
+### Inventory Information
 
-```sh
-curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/products \
--u consumer_key:consumer_secret \
--H "Content-Type: application/json" \
--d '{
+**Method**: `POST`  
+**URL**: `{{base_url}}/products`  
+**Authorization**: Basic Auth  
+**Headers**: `Content-Type: application/json`  
+**Body** (raw, JSON):
+
+```json
+{
   "name": "Product Name",
   "type": "simple",
   "regular_price": "29.99",
@@ -73,16 +138,19 @@ curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/products \
     }
   ],
   "stock_quantity": 100
-}'
+}
 ```
 
-#### 4. Posting Company Information
+### Company Information
 
-```sh
-curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/customers \
--u consumer_key:consumer_secret \
--H "Content-Type: application/json" \
--d '{
+**Method**: `POST`  
+**URL**: `{{base_url}}/customers`  
+**Authorization**: Basic Auth  
+**Headers**: `Content-Type: application/json`  
+**Body** (raw, JSON):
+
+```json
+{
   "email": "company@example.com",
   "first_name": "Company",
   "last_name": "Name",
@@ -94,16 +162,19 @@ curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/customers \
     "postcode": "67890",
     "country": "US"
   }
-}'
+}
 ```
 
-#### 5. Posting User Information
+### User Information
 
-```sh
-curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/customers \
--u consumer_key:consumer_secret \
--H "Content-Type: application/json" \
--d '{
+**Method**: `POST`  
+**URL**: `{{base_url}}/customers`  
+**Authorization**: Basic Auth  
+**Headers**: `Content-Type: application/json`  
+**Body** (raw, JSON):
+
+```json
+{
   "email": "user@example.com",
   "first_name": "User",
   "last_name": "Name",
@@ -118,61 +189,58 @@ curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/customers \
     "country": "US"
   },
   "password": "password"
-}'
+}
 ```
 
-#### 6. Posting Stock Movement
+### Stock Movement
 
-```sh
-curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/stock_movements \
--u consumer_key:consumer_secret \
--H "Content-Type: application/json" \
--d '{
+**Method**: `POST`  
+**URL**: `{{base_url}}/stock_movements`  
+**Authorization**: Basic Auth  
+**Headers**: `Content-Type: application/json`  
+**Body** (raw, JSON):
+
+```json
+{
   "product_id": 56,
   "quantity": 10,
   "movement_type": "addition",
   "note": "Stock replenishment"
-}'
+}
 ```
 
-#### 7. Posting Different Stock Transactions
+### Stock Transactions
 
-```sh
-curl -X POST https://aenzbi.bi/wp/wp-json/wc/v3/stock_movements \
--u consumer_key:consumer_secret \
--H "Content-Type: application/json" \
--d '{
+**Method**: `POST`  
+**URL**: `{{base_url}}/stock_movements`  
+**Authorization**: Basic Auth  
+**Headers**: `Content-Type: application/json`  
+**Body** (raw, JSON):
+
+```json
+{
   "product_id": 56,
   "quantity": 5,
   "movement_type": "subtraction",
   "note": "Stock sold"
-}'
+}
 ```
 
-### Import cURL Commands into Postman
+## Running the Collection
 
-1. **Open Postman**.
-2. **Click on the Import button** in the top left corner.
-3. **Select the Raw text option**.
-4. **Paste the cURL command** into the text area.
-5. **Click on Continue and then Import**.
+1. Open Postman.
+2. Select the imported collection.
+3. Click the **Run** button.
+4. Ensure the environment is set to "Fiscalization Endpoint".
+5. Click **Start Run**.
 
-### Configure Each Request in Postman
+## Contributing
 
-1. **Method**: Ensure the method is correct (e.g., `POST`).
-2. **URL**: Verify the URL (`https://aenzbi.bi/wp/wp-json/wc/v3/...`).
-3. **Authorization**:
-   - Set the type to `Basic Auth`.
-   - Enter your `consumer_key` as the username.
-   - Enter your `consumer_secret` as the password.
-4. **Headers**:
-   - Ensure `Content-Type` is set to `application/json`.
-5. **Body**:
-   - Set the body type to `raw`.
-   - Ensure the data is in JSON format as shown in the respective cURL command.
+Contributions are welcome! Please open an issue or submit a pull request with your improvements.
 
-### Execute the Requests
+## License
 
-Click the **Send** button in Postman to execute each request. If everything is set up correctly, you should see responses indicating the success of each operation.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
 
-By following these steps, you can efficiently post various types of data to the WooCommerce API using Postman. Adjust the JSON payloads as needed to match your specific requirements.
+This `README.md` file provides clear instructions for setting up and using the Postman collection, including how to configure the environment, set up authorization headers, and run the collection. Adjust the JSON payloads and URLs as necessary to match your specific requirements.
